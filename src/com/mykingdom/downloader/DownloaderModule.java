@@ -23,10 +23,14 @@ public class DownloaderModule extends KrollModule {
 	// Static Properties
 	public static final String PROPERTY_FILES_TO_DOWNLOAD = "filesToDownload";
 	public static final String PROPERTY_OUTPUT_DIRECTORY = "outputDirectory";
+	public static final String PROPERTY_USE_CACHE = "useCache";
 	public static final String PROPERTY_ENABLE_NOTIFICATION = "enableNotification";
 	public static final String PROPERTY_NOTIFICATION_ID = "notificationId";
 	public static final String PROPERTY_NOTIFICATION_TITLE = "notificationTitle";
-	public static final String PROPERTY_USE_CACHE = "useCache";
+	public static final String PROPERTY_NOTIFICATION_SUCCESS_TITLE = "notificationSuccessTitle";
+	public static final String PROPERTY_NOTIFICATION_SUCCESS_DESCRIPTION = "notificationSuccessDescription";
+	public static final String PROPERTY_NOTIFICATION_FAILURE_TITLE = "notificationFailureTitle";
+	public static final String PROPERTY_NOTIFICATION_FAILURE_DESCRIPTION = "notificationFailureDescription";
 
 	public DownloaderModule() {
 		super();

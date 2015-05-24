@@ -23,7 +23,11 @@ import com.mykingdom.downloader.IAsyncFetchListener;
 		DownloaderModule.PROPERTY_USE_CACHE,
 		DownloaderModule.PROPERTY_ENABLE_NOTIFICATION,
 		DownloaderModule.PROPERTY_NOTIFICATION_ID,
-		DownloaderModule.PROPERTY_NOTIFICATION_TITLE })
+		DownloaderModule.PROPERTY_NOTIFICATION_TITLE,
+		DownloaderModule.PROPERTY_NOTIFICATION_SUCCESS_TITLE,
+		DownloaderModule.PROPERTY_NOTIFICATION_SUCCESS_DESCRIPTION,
+		DownloaderModule.PROPERTY_NOTIFICATION_FAILURE_TITLE,
+		DownloaderModule.PROPERTY_NOTIFICATION_FAILURE_DESCRIPTION })
 public class AsyncDownloaderProxy extends KrollProxy {
 
 	// Standard Debugging variables
@@ -77,6 +81,8 @@ public class AsyncDownloaderProxy extends KrollProxy {
 
 		downloader = new DownloadFile(
 				getActivity().getApplicationContext(),
+				TiConvert.toBoolean(
+						getProperty(DownloaderModule.PROPERTY_USE_CACHE), true),
 				outputDirectory,
 				TiConvert
 						.toBoolean(
@@ -88,11 +94,23 @@ public class AsyncDownloaderProxy extends KrollProxy {
 				TiConvert
 						.toString(
 								getProperty(DownloaderModule.PROPERTY_NOTIFICATION_TITLE),
-								"Download"),
+								"Download in progress"),
 				TiConvert
-						.toBoolean(
-								getProperty(DownloaderModule.PROPERTY_USE_CACHE),
-								true));
+						.toString(
+								getProperty(DownloaderModule.PROPERTY_NOTIFICATION_SUCCESS_TITLE),
+								"Download completed"),
+				TiConvert
+						.toString(
+								getProperty(DownloaderModule.PROPERTY_NOTIFICATION_SUCCESS_DESCRIPTION),
+								"Download completed successfully."),
+				TiConvert
+						.toString(
+								getProperty(DownloaderModule.PROPERTY_NOTIFICATION_FAILURE_TITLE),
+								"Download failed"),
+				TiConvert
+						.toString(
+								getProperty(DownloaderModule.PROPERTY_NOTIFICATION_FAILURE_DESCRIPTION),
+								"Please try again."));
 
 		downloader.setListener(new IAsyncFetchListener() {
 			@Override

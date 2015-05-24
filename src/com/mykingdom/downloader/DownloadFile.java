@@ -29,18 +29,27 @@ class DownloadFile extends AsyncTask<List<Object>, Integer, String> {
 	private boolean enableNotification, useCache;
 	private Integer notificationId;
 	private String notificationTitle;
+	private String notificationSuccessTitle;
+	private String notificationSuccessDescription;
+	private String notificationFailureTitle;
+	private String notificationFailureDescription;
 	private Context mContext;
 	private NotificationHelper notificationHelper;
 	IAsyncFetchListener fetchListener = null;
 
-	public DownloadFile(Context context, File direcory, boolean enable,
-			Integer id, String title, boolean cache) {
+	public DownloadFile(Context context, boolean cache, File direcory,
+			boolean enable, Integer id, String title, String stitle,
+			String sdesc, String ftitle, String fdesc) {
 		mContext = context;
+		useCache = cache;
 		outputDirectory = direcory;
 		enableNotification = enable;
 		notificationId = id;
 		notificationTitle = title;
-		useCache = cache;
+		notificationSuccessTitle = stitle;
+		notificationSuccessDescription = sdesc;
+		notificationFailureTitle = ftitle;
+		notificationFailureDescription = fdesc;
 	}
 
 	public void setListener(IAsyncFetchListener listener) {
@@ -122,7 +131,8 @@ class DownloadFile extends AsyncTask<List<Object>, Integer, String> {
 
 			deleteUnCompletedFile(fileObj);
 			if (enableNotification) {
-				notificationHelper.notcompleted();
+				notificationHelper.notcompleted(notificationFailureTitle,
+						notificationFailureDescription);
 			}
 			this.fetchListener.onError(e.toString(), i);
 
@@ -160,7 +170,9 @@ class DownloadFile extends AsyncTask<List<Object>, Integer, String> {
 
 	@Override
 	protected void onPostExecute(String result) {
-		if (!enableNotification || notificationHelper.completed()) {
+		if (!enableNotification
+				|| notificationHelper.completed(notificationSuccessTitle,
+						notificationSuccessDescription)) {
 			this.fetchListener.onComplete();
 		}
 	}
@@ -171,25 +183,6 @@ class DownloadFile extends AsyncTask<List<Object>, Integer, String> {
 			notificationHelper.cancelnotification();
 		}
 		this.fetchListener.onCancel();
-	}
-
-	private static SSLSocketFactory createSslSocketFactory() throws Exception {
-		TrustManager[] byPassTrustManagers = new TrustManager[] { new X509TrustManager() {
-			public X509Certificate[] getAcceptedIssuers() {
-				return new X509Certificate[0];
-			}
-
-			public void checkClientTrusted(X509Certificate[] chain,
-					String authType) {
-			}
-
-			public void checkServerTrusted(X509Certificate[] chain,
-					String authType) {
-			}
-		} };
-		SSLContext sslContext = SSLContext.getInstance("TLS");
-		sslContext.init(null, byPassTrustManagers, new SecureRandom());
-		return sslContext.getSocketFactory();
 	}
 
 	private void deleteUnCompletedFile(File file) {
