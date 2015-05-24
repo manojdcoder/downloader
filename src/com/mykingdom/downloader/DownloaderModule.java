@@ -20,8 +20,13 @@ public class DownloaderModule extends KrollModule {
 	// Standard Debugging variables
 	private static final String TAG = "DownloaderModule";
 
-	// You can define constants with @Kroll.constant, for example:
-	// @Kroll.constant public static final String EXTERNAL_NAME = value;
+	// Static Properties
+	public static final String PROPERTY_FILES_TO_DOWNLOAD = "filesToDownload";
+	public static final String PROPERTY_OUTPUT_DIRECTORY = "outputDirectory";
+	public static final String PROPERTY_ENABLE_NOTIFICATION = "enableNotification";
+	public static final String PROPERTY_NOTIFICATION_ID = "notificationId";
+	public static final String PROPERTY_NOTIFICATION_TITLE = "notificationTitle";
+	public static final String PROPERTY_USE_CACHE = "useCache";
 
 	public DownloaderModule() {
 		super();
@@ -30,7 +35,5 @@ public class DownloaderModule extends KrollModule {
 	@Kroll.onAppCreate
 	public static void onAppCreate(TiApplication app) {
 		Log.d(TAG, "inside onAppCreate");
-		// put module init code that needs to run when the application is
-		// created
 	}
 }
